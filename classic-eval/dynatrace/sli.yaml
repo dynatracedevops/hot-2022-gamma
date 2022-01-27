@@ -1,31 +1,22 @@
-spec_version: 0.1.4
+---
+spec_version: '1.0'
 indicators:
-  cpu_time: MV2;MicroSecond;metricSelector=builtin:service.cpu.perRequest:splitBy():sum:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  db_calls: metricSelector=builtin:service.dbChildCallCount:splitBy():value:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  error_count: metricSelector=builtin:service.errors.total.count:splitBy():value:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  io_time: MV2;MicroSecond;metricSelector=builtin:service.ioTime:splitBy():value:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  kpi_et_ex: metricSelector=calc:service.exceptionsbyteststep:splitBy():sum:names
-  kpi_rt_1_-_Home_Page: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,1 - Home Page))
-  kpi_rt_2_-_CalculateRecommendations: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,2 - CalculateRecommendations))
-  kpi_rt_3_-_Login: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,3 - Login))
-  kpi_rt_4_-_Random_Search: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,4 - Random Search))
-  kpi_rt_5_-_Select_Journey: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,5 - Select Journey))
-  kpi_rt_6_-_Select_Payment: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,6 - Select Payment))
-  kpi_rt_7_-_Mock_Creditcard_Number: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,7 - Mock Creditcard Number))
-  kpi_rt_8_-_Submit_Payment: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,8 - Submit Payment))
-  kpi_rt_9_-_Finish_Payment: MV2;MicroSecond;metricSelector=calc:service.teststepresponsetime:splitBy("Test
-    Step"):avg:names:filter(eq(Test Step,9 - Finish Payment))
-  lock_time: MV2;MicroSecond;metricSelector=builtin:service.lockTime:splitBy():value:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  non_db_calls: metricSelector=builtin:service.nonDbChildCallCount:splitBy():value:names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  svc_rt_p50: MV2;MicroSecond;metricSelector=builtin:service.response.time:splitBy():percentile(50.000000):names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  svc_rt_p90: MV2;MicroSecond;metricSelector=builtin:service.response.time:splitBy():percentile(90.000000):names&entitySelector=type(SERVICE),tag("Application:EasyTravel")
-  svc_rt_p95: MV2;MicroSecond;metricSelector=builtin:service.response.time:splitBy():percentile(95.000000):names&entitySelector=type(SERVICE),tag("EasyTravel")
-  throughput_svc: metricSelector=builtin:service.requestCount.total:splitBy():value:names&entitySelector=type(SERVICE),tag("classic-eval")
+  throughput_svc: "metricSelector=builtin:service.requestCount.total:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  error_count: "metricSelector=builtin:service.errors.total.count:merge(\"dt.entity.service\"):sum&entitySelector=tag(EasyTravel),type(SERVICE)"
+  rt_svc_p90:     "metricSelector=builtin:service.response.time:merge(\"dt.entity.service\"):percentile(90)&entitySelector=tag(classic-eval),type(SERVICE)"
+  rt_svc_p95:     "metricSelector=builtin:service.response.time:merge(\"dt.entity.service\"):percentile(95)&entitySelector=tag(classic-eval),type(SERVICE)"
+  db_calls:       "metricSelector=builtin:service.dbChildCallCount:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  non_db_calls:   "metricSelector=builtin:service.nonDbChildCallCount:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  lock_time:    "metricSelector=builtin:service.lockTime:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  io_time:      "metricSelector=builtin:service.ioTime:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  cpu_time:     "metricSelector=builtin:service.cpu.time:merge(\"dt.entity.service\"):sum&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_et_ex:     "metricSelector=calc:service.exceptionsbyteststep:splitBy():sum:names"
+  kpi_rt_home:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",1)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_recommendations:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",2)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_login:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",3)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_search:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",4)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_journey:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",5)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_select_payment:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",6)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_check_creditcard:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",7)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_submit_payment:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",8)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
+  kpi_rt_finish_payment:     "metricSelector=calc:service.teststepresponsetime:filter(prefix(\"Test Step\",9)):merge(\"dt.entity.service\"):avg&entitySelector=tag(classic-eval),type(SERVICE)"
